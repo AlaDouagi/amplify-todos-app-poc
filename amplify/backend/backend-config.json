@@ -23,5 +23,11 @@
 				}
 			}
 		}
+	},
+	"storage": {
+		"amplifytodosapppocdb": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
+		}
 	}
 }
