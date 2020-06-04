@@ -15,7 +15,15 @@ function write(params, event, callback) {
 }
 
 function createCoin(event, callback) {
-  const args = { ...event.arguments, id: uuid() };
+  const currentDate = new Date().toISOString();
+
+  const args = {
+    ...event.arguments,
+    id: uuid(),
+    createdAt: currentDate,
+    updatedAt: currentDate,
+  };
+
   var params = {
     TableName: ddb_table_name,
     Item: args,
