@@ -1,10 +1,41 @@
-type Coin {
+type Todo {
   id: String!
-  name: String!
-  symbol: String!
-  price_usd: String!
+  title: String!
+  description: String!
+  updatedAt: String!
+  createdAt: String!
 }
 
 type Query {
-  getCoins(limit: Int start: Int): [Coin] @function(name: "todosmatching-${env}")
+  getTodos(limit: Int, start: Int): [Todo]
+    @function(name: "todosmatching-${env}")
 }
+
+# new mutation definition
+type Mutation {
+  createTodo(
+    id: String!
+    title: String!
+    description: String!
+    updatedAt: String!
+    createdAt: String!
+  ): Todo @function(name: "todosmatching-${env}")
+}
+
+# type Coin {
+#   id: String!
+#   name: String!
+#   symbol: String!
+#   price_usd: String!
+# }
+
+# type Query {
+#   getCoins(limit: Int, start: Int): [Coin]
+#     @function(name: "currencyfunction-${env}")
+# }
+
+# # new mutation definition
+# type Mutation {
+#   createCoin(name: String!, symbol: String!, price_usd: String!): Coin
+#     @function(name: "currencyfunction-${env}")
+# }
