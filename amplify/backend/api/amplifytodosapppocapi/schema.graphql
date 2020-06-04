@@ -13,13 +13,8 @@ type Query {
 
 # new mutation definition
 type Mutation {
-  createTodo(
-    id: String!
-    title: String!
-    description: String!
-    updatedAt: String!
-    createdAt: String!
-  ): Todo @function(name: "todosmatching-${env}")
+  createTodo(title: String!, description: String!): Todo
+    @function(name: "todosmatching-${env}")
 }
 
 # type Coin {
