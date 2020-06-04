@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const region = process.env.REGION;
-const storageCurrencytableName = process.env.STORAGE_CURRENCYTABLE_NAME;
+const storageCurrencytableName = process.env.STORAGE_AMPLIFYTODOSAPPPOCDB_NAME;
 const docClient = new AWS.DynamoDB.DocumentClient({ region });
 
 const params = {

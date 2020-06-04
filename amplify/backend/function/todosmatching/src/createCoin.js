@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const region = process.env.REGION;
-const ddb_table_name = process.env.STORAGE_CURRENCYTABLE_NAME;
+const ddb_table_name = process.env.STORAGE_AMPLIFYTODOSAPPPOCDB_NAME;
 const docClient = new AWS.DynamoDB.DocumentClient({ region });
 
 function write(params, event, callback) {
