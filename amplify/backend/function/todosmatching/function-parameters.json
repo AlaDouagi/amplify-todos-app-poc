@@ -1,1 +1,12 @@
-{}
+{
+    "permissions": {
+        "storage": {
+            "amplifytodosapppocdb": [
+                "create",
+                "read",
+                "update",
+                "delete"
+            ]
+        }
+    }
+}
