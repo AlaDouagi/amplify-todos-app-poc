@@ -1,5 +1,5 @@
-type Todo {
-  id: String!
+type Todo @model {
+  id: ID!
   title: String!
   description: String!
   updatedAt: String!
@@ -7,13 +7,7 @@ type Todo {
 }
 
 type Query {
-  getTodos(limit: Int, start: Int): [Todo]
-    @function(name: "todosmatching-${env}")
-}
-
-# new mutation definition
-type Mutation {
-  createTodo(title: String!, description: String!): Todo
+  getMatchingTodos(name: String!): [Todo]
     @function(name: "todosmatching-${env}")
 }
 

@@ -82,7 +82,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-amplifytodosapppoc-dev-164259-deployment",
-					"S3Key": "amplify-builds/todosmatching-58754c3666426f4e7457-build.zip"
+					"S3Key": "amplify-builds/todosmatching-7869733741465347454f-build.zip"
 				}
 			}
 		},

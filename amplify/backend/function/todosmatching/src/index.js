@@ -4,6 +4,7 @@
 	STORAGE_AMPLIFYTODOSAPPPOCDB_ARN
 	STORAGE_AMPLIFYTODOSAPPPOCDB_NAME
 Amplify Params - DO NOT EDIT */ // amplify/backend/function/todosmatching/src/index.js
+require('./config');
 const getCoins = require('./getCoins');
 const createCoin = require('./createCoin');
 
