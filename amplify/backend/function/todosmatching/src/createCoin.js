@@ -5,6 +5,8 @@ const { v4: uuid } = require('uuid');
 const isFake = process.env.AWS_ACCESS_KEY_ID === 'fake';
 
 const region = isFake ? 'us-fake-1' : process.env.REGION;
+// FIXME: This is an old invalid DB table name, please change the env variable
+// when linking a new DB table to this lambda funtion
 const ddb_table_name = process.env.STORAGE_AMPLIFYTODOSAPPPOCDB_NAME;
 
 // Write the type where @model directive was written

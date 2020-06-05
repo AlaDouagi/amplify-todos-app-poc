@@ -28,7 +28,8 @@ if (isFake) {
 
 const todosTableName = isUsingModelDirective
   ? `${tableName}${tableSuffix}`
-  : // TODO: Fix env variable name whenever it changes (after manual linking of DB)
+  : // FIXME: This is an old invalid DB table name, please change the env variable
+    // when linking a new DB table to this lambda funtion
     process.env.STORAGE_AMPLIFYTODOSAPPPOCDB_NAME;
 
 const docClient = new AWS.DynamoDB.DocumentClient(awsConfig);

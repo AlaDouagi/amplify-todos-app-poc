@@ -1,8 +1,4 @@
 {
-  "permissions": {
-    "storage": {
-      "amplifytodosapppocdb": ["create", "read", "update", "delete"]
-    }
-  },
-  "storageamplifytodosapppocName": ""
+    "permissions": {},
+    "storageamplifytodosapppocName": ""
 }
