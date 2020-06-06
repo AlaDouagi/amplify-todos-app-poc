@@ -8,7 +8,7 @@ type Todo @model {
 
 type Query {
   getMatchingTodos(name: String!): [Todo]
-    @function(name: "todosmatching-${env}")
+    @function(name: "matchtodos-${env}")
 }
 
 # type Coin {
