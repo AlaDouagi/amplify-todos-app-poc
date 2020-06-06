@@ -7,24 +7,5 @@ type Todo @model {
 }
 
 type Query {
-  getMatchingTodos(name: String!): [Todo]
-    @function(name: "matchtodos-${env}")
+  getMatchingTodos(title: String!): [Todo] @function(name: "matchtodos-${env}")
 }
-
-# type Coin {
-#   id: String!
-#   name: String!
-#   symbol: String!
-#   price_usd: String!
-# }
-
-# type Query {
-#   getCoins(limit: Int, start: Int): [Coin]
-#     @function(name: "currencyfunction-${env}")
-# }
-
-# # new mutation definition
-# type Mutation {
-#   createCoin(name: String!, symbol: String!, price_usd: String!): Coin
-#     @function(name: "currencyfunction-${env}")
-# }
