@@ -10,6 +10,7 @@ export const createTodo = /* GraphQL */ `
       id
       title
       description
+      done
       owner
       updatedAt
       createdAt
@@ -25,6 +26,7 @@ export const updateTodo = /* GraphQL */ `
       id
       title
       description
+      done
       owner
       updatedAt
       createdAt
@@ -40,6 +42,7 @@ export const deleteTodo = /* GraphQL */ `
       id
       title
       description
+      done
       owner
       updatedAt
       createdAt
