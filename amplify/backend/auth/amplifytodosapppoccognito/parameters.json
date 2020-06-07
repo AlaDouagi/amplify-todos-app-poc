@@ -1,8 +1,6 @@
 {
-    "identityPoolName": "amplifytodosapppocb6016c91_identitypool_b6016c91",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "amplifb6016c91",
-    "userPoolName": "amplifytodosapppocb6016c91_userpool_b6016c91",
+    "resourceNameTruncated": "amplif9e0f9b20",
+    "userPoolName": "amplifytodosapppocuserpool",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -14,9 +12,14 @@
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Your verification code",
     "emailVerificationMessage": "Your verification code is {####}",
-    "defaultPasswordPolicy": false,
-    "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [],
+    "defaultPasswordPolicy": true,
+    "passwordPolicyMinLength": "8",
+    "passwordPolicyCharacters": [
+        "Requires Lowercase",
+        "Requires Uppercase",
+        "Requires Numbers",
+        "Requires Symbols"
+    ],
     "requiredAttributes": [
         "email"
     ],
@@ -28,11 +31,19 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "amplifb6016c91_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "amplif9e0f9b20_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "b6016c91",
-    "resourceName": "amplifytodosapppocb6016c91",
-    "authSelections": "identityPoolAndUserPool",
+    "useDefault": "manual",
+    "authSelections": "userPoolOnly",
+    "resourceName": "amplifytodosapppoccognito",
+    "usernameAttributes": [
+        "email"
+    ],
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": "{}",
+    "hostedUI": false,
+    "userPoolGroupList": [],
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",
@@ -45,10 +56,9 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
-    "usernameAttributes": [
-        "email"
-    ],
-    "userPoolGroupList": [],
+    "parentStack": {
+        "Ref": "AWS::StackId"
+    },
+    "permissions": [],
     "dependsOn": []
 }

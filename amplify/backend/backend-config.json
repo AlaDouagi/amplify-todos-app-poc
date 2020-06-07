@@ -35,11 +35,10 @@
 	},
 	"storage": {},
 	"auth": {
-		"amplifytodosapppocb6016c91": {
+		"amplifytodosapppoccognito": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": [],
-			"customAuth": false
+			"dependsOn": []
 		}
 	}
 }
