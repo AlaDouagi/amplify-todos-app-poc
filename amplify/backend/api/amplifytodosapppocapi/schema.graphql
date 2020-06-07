@@ -13,3 +13,7 @@ type Todo
 type Query {
   getMatchingTodos(title: String!): [Todo] @function(name: "matchtodos-${env}")
 }
+
+type Mutation {
+  deleteAllTodos: [Todo] @function(name: "deletealltodos-${env}")
+}

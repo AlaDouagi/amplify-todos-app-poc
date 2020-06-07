@@ -13,6 +13,20 @@
                     ]
                 }
             ]
+        },
+        "deletealltodos": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "amplifytodosapppocapi",
+                    "attributes": [
+                        "GraphQLAPIIdOutput"
+                    ]
+                }
+            ]
         }
     },
     "api": {
