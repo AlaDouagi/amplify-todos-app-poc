@@ -27,11 +27,15 @@ if (isFake) {
 
 const docClient = new AWS.DynamoDB.DocumentClient(awsConfig);
 
-const params = {
-  TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
-};
-
 exports.handler = function (event, context, callback) {
+  const params = {
+    TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
+    FilterExpression: 'title = :title',
+    ExpressionAttributeValues: {
+      ':title': event.arguments.title,
+    },
+  };
+
   docClient.scan(params, function (err, data) {
     if (err) {
       callback(err);
