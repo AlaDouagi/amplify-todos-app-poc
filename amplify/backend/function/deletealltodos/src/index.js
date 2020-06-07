@@ -33,31 +33,37 @@ const hashKey = 'id';
 const rangeKey = null;
 
 exports.handler = function (event, context, callback) {
-  const scanParams = {
-    TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
-  };
+  if (event.typeName === 'Mutation' && event.fieldName === 'deleteAllTodos') {
+    const scanParams = {
+      TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
+    };
 
-  docClient.scan(scanParams, function (err, data) {
-    if (err) callback(err);
-    // an error occurred
-    else {
-      data.Items.forEach(function (obj, i) {
-        const params = {
-          TableName: scanParams.TableName,
-          Key: buildKey(obj),
-          ReturnValues: 'NONE', // optional (NONE | ALL_OLD)
-          ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
-          ReturnItemCollectionMetrics: 'NONE', // optional (NONE | SIZE)
-        };
+    docClient.scan(scanParams, function (err, data) {
+      if (err) callback(err);
+      // an error occurred
+      else {
+        if (data.Items.length === 0) {
+          callback(null, []);
+        } else {
+          data.Items.forEach(function (obj, i) {
+            const params = {
+              TableName: scanParams.TableName,
+              Key: buildKey(obj),
+              ReturnValues: 'NONE', // optional (NONE | ALL_OLD)
+              ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
+              ReturnItemCollectionMetrics: 'NONE', // optional (NONE | SIZE)
+            };
 
-        docClient.delete(params, function (err, dataItem) {
-          if (err) callback(err);
-          // an error occurred
-          else if (i === data.Items.length - 1) callback(null, data.Items); // successful response
-        });
-      });
-    }
-  });
+            docClient.delete(params, function (err, dataItem) {
+              if (err) callback(err);
+              // an error occurred
+              else if (i === data.Items.length - 1) callback(null, data.Items); // successful response
+            });
+          });
+        }
+      }
+    });
+  }
 };
 
 function buildKey(obj) {
