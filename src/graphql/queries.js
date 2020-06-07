@@ -7,6 +7,7 @@ export const getMatchingTodos = /* GraphQL */ `
       id
       title
       description
+      owner
       updatedAt
       createdAt
     }
@@ -18,6 +19,7 @@ export const getTodo = /* GraphQL */ `
       id
       title
       description
+      owner
       updatedAt
       createdAt
     }
@@ -34,6 +36,7 @@ export const listTodos = /* GraphQL */ `
         id
         title
         description
+        owner
         updatedAt
         createdAt
       }

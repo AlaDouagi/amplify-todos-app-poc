@@ -4,6 +4,7 @@ type Todo
   id: ID!
   title: String!
   description: String!
+  owner: String
   updatedAt: String!
   createdAt: String!
 }
