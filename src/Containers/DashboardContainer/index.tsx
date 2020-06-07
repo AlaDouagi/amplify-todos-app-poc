@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Auth } from 'aws-amplify';
 import { RouteComponentProps, useHistory } from 'react-router';
-import { Layout, Menu, notification } from 'antd';
+import { Layout, Menu, notification, Row, Col } from 'antd';
 import {
   HomeOutlined,
   SettingOutlined,
@@ -9,6 +9,8 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
+
+import Todos from '../Todos';
 
 /** App Theme */
 import { colors } from '../../Themes/Colors';
@@ -76,9 +78,14 @@ const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
             minHeight: 280,
           }}
         >
-          <div className="text-center">
-            <h1>Hello world</h1>
-          </div>
+          <Row>
+            <Col span={12}>
+              <Todos headerTitle="Your todos" />
+            </Col>
+            <Col span={12}>
+              <Todos headerTitle="Matched todos" />
+            </Col>
+          </Row>
         </Layout.Content>
       </Layout>
     </Layout>

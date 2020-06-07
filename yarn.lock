@@ -2587,6 +2587,11 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@lokibai/react-store@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@lokibai/react-store/-/react-store-0.1.1.tgz#32e40bdae3c64202565296bdd9eb7f23ed81294a"
+  integrity sha512-39GKOS7MLIjtW4YvJMOag2AOfqvx3sqgbSeYoGVoxTE5Q3K3JtklrmQOvX0POd6Mv0XPXfp0Z2fcH6LuvBgRlA==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2818,6 +2823,11 @@
   integrity sha512-jEFQ8L1tuvPjOI8lnpaf73oCJe+aoxL6ygqSy6c8LcW98zaC+4mzWuQIRCEvKeCOu+lbqdXcg4Uqmm1S8AP1tw==
   dependencies:
     "@babel/types" "^7.3.0"
+
+"@types/classnames@^2.2.10":
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.10.tgz#cc658ca319b6355399efc1f5b9e818f1a24bf999"
+  integrity sha512-1UzDldn9GfYYEsWWnn/P4wkTlkZDH7lDb0wBMGbtIQc9zXEQq7FlKBdZUn6OBqD8sKZZ2RQO2mAjGpXiDGoRmQ==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
@@ -6972,6 +6982,11 @@ immer@6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/immer/-/immer-6.0.1.tgz#7af35e35753d9da6bc9123f0cc99f7e8f2e10681"
   integrity sha512-oXwigCKgznQywsXi1VgrqgWbQEU3wievNCVc4Fcwky6mwXU6YHj6JuYp0WEM/B1EphkqsLr0x18lm5OiuemPcA==
+
+immer@^6.0.9:
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-6.0.9.tgz#b9dd69b8e69b3a12391e87db1e3ff535d1b26485"
+  integrity sha512-SyCYnAuiRf67Lvk0VkwFvwtDoEiCMjeamnHvRfnVDyc7re1/rQrNxuL+jJ7lA3WvdC4uznrvbmm+clJ9+XXatg==
 
 immutable@^3.7.4:
   version "3.8.2"
