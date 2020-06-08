@@ -1,6 +1,19 @@
 type Todo
   @model
-  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "owner"
+        operations: [create, delete, update]
+      }
+    ]
+  )
+  @key(
+    name: "ByOwner"
+    fields: ["owner", "createdAt"]
+    queryField: "todosByOwner"
+  ) {
   id: ID!
   title: String!
   description: String!
