@@ -35,8 +35,8 @@ exports.handler = function (event, context, callback) {
       ':owner': event.arguments.owner,
     },
     ExpressionAttributeNames: {
-      "#owner_id": "owner"
-    }
+      '#owner_id': 'owner',
+    },
   };
 
   docClient.scan(ownerTodosparams, function (err, data) {
@@ -54,8 +54,16 @@ exports.handler = function (event, context, callback) {
       const matchedTodosParams = {
         TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
         FilterExpression:
-          'title IN (' + Object.keys(titleObject).toString() + ')',
-        ExpressionAttributeValues: titleObject,
+          '#owner_id <> :owner AND title IN (' +
+          Object.keys(titleObject).toString() +
+          ')',
+        ExpressionAttributeValues: {
+          ...titleObject,
+          ':owner': event.arguments.owner,
+        },
+        ExpressionAttributeNames: {
+          '#owner_id': 'owner',
+        },
       };
 
       docClient.scan(matchedTodosParams, function (err, data) {
