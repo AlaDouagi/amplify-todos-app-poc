@@ -3,13 +3,13 @@ import { useDispatch } from '@lokibai/react-store';
 import { API, graphqlOperation } from 'aws-amplify';
 
 import { ENTER_KEY } from './constants';
-import { Action } from '../../store';
+// import { Action } from '../../store';
 import { createTodo } from '../../graphql/mutations';
 
 const createTodoMutation = (todoDetails: any) =>
   API.graphql(graphqlOperation(createTodo, todoDetails));
 
-const Header: React.SFC<any> = ({ title = 'todos' }) => {
+const Header: React.SFC<any> = ({ groupName, title = 'todos', readOnly }) => {
   const input = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const [text, setText] = useState<string>('');
@@ -42,24 +42,29 @@ const Header: React.SFC<any> = ({ title = 'todos' }) => {
         },
       });
 
-      dispatch({ type: 'create', payload: todo } as Action);
+      dispatch({ type: 'create', payload: { todo, groupName } });
 
       setText('');
     }
   };
 
   return (
-    <header className="header">
+    <header
+      className="header"
+      style={readOnly ? { paddingBottom: '65px' } : undefined}
+    >
       <h1>{title}</h1>
 
-      <input
-        ref={input}
-        className="new-todo"
-        placeholder="What needs to be done?"
-        value={text}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-      />
+      {!readOnly && (
+        <input
+          ref={input}
+          className="new-todo"
+          placeholder="What needs to be done?"
+          value={text}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+        />
+      )}
     </header>
   );
 };

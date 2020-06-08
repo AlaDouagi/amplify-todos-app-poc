@@ -370,3 +370,7 @@ html .clear-completed:active {
     bottom: 10px;
   }
 }
+
+.shiny-green-background {
+  background-color: rgba(2, 237, 170, 0.3);
+}

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Auth } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { RouteComponentProps, useHistory } from 'react-router';
+import { useAsync } from 'react-use';
 import { Layout, Menu, notification, Row, Col } from 'antd';
 import {
   HomeOutlined,
@@ -9,6 +10,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
+import { listTodos, getMatchingTodos } from '../../graphql/queries';
 
 import Todos from '../Todos';
 
@@ -19,9 +21,19 @@ import { colors } from '../../Themes/Colors';
 import { AUTH_USER_TOKEN_KEY } from '../../Utils/constants';
 import { ClickParam } from 'antd/lib/menu';
 
+const listQuery: any = (query?: any) =>
+  API.graphql(graphqlOperation(listTodos, query));
+
+const getMatchingTodosQuery: any = (query?: any) =>
+  API.graphql(graphqlOperation(getMatchingTodos, query));
+
 const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
   const [collapsed, setCollapsed] = React.useState(false);
   const history = useHistory();
+
+  const { value: loggedUserId } = useAsync(() =>
+    Auth.currentSession().then((data: any) => data.accessToken.payload.sub)
+  );
 
   const handleLogout = async (event: ClickParam) => {
     try {
@@ -37,6 +49,22 @@ const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
   const toggleColloapse = React.useCallback(() => {
     setCollapsed((on) => !on);
   }, []);
+
+  const getUserTodos = React.useCallback(
+    () =>
+      listQuery({
+        filter: { owner: { eq: loggedUserId } },
+      }).then((res: any) => res.data.listTodos.items),
+    [loggedUserId]
+  );
+
+  const getMatchedTodos = React.useCallback(
+    () =>
+      getMatchingTodosQuery({
+        owner: loggedUserId,
+      }).then((res: any) => res.data.getMatchingTodos),
+    [loggedUserId]
+  );
 
   return (
     <Layout className="cover" id="app-header">
@@ -78,12 +106,24 @@ const DashBoardContainer: React.SFC<RouteComponentProps> = (props) => {
             minHeight: 280,
           }}
         >
-          <Row>
+          <Row gutter={[16, 16]}>
             <Col span={12}>
-              <Todos headerTitle="Your todos" />
+              <Todos
+                name="userTodos"
+                headerTitle="Your todos"
+                todosItemsResolver={getUserTodos}
+              />
             </Col>
             <Col span={12}>
-              <Todos headerTitle="Matched todos" />
+              <Todos
+                name="matchedTodos"
+                headerTitle="Matched todos"
+                itemClassnamesResolver={(todo: any) => ({
+                  'shiny-green-background': todo.owner !== loggedUserId,
+                })}
+                todosItemsResolver={getMatchedTodos}
+                readOnly
+              />
             </Col>
           </Row>
         </Layout.Content>

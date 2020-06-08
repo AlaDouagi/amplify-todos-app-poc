@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { useSelector, useDispatch } from '@lokibai/react-store';
-import { API, Auth, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 
-import { ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from './constants';
+import {
+  ALL_TODOS,
+  ACTIVE_TODOS,
+  COMPLETED_TODOS,
+  ENTER_KEY,
+} from './constants';
 import { AppState, Todo, Action } from '../../store';
-import { listTodos } from '../../graphql/queries';
 import { updateTodo, deleteTodo } from '../../graphql/mutations';
-
-const listQuery = (query?: any) =>
-  API.graphql(graphqlOperation(listTodos, query));
 
 const updateTodoMutation = (todoDetails: any) =>
   API.graphql(graphqlOperation(updateTodo, todoDetails));
@@ -17,34 +18,31 @@ const updateTodoMutation = (todoDetails: any) =>
 const deleteTodoMutation = (todoDetails: any) =>
   API.graphql(graphqlOperation(deleteTodo, todoDetails));
 
-const Main: React.FunctionComponent = () => {
+const identity = (x: any) => x;
+
+const Main: React.FunctionComponent<any> = ({
+  readOnly,
+  todosItemsResolver,
+  itemClassnamesResolver,
+  groupName,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function loadUserTodos() {
-      const {
-        accessToken: {
-          payload: { sub: userId },
-        },
-      }: any = await Auth.currentSession();
-
-      const {
-        data: {
-          listTodos: { items },
-        },
-      }: any = await listQuery({ filter: { owner: { eq: userId } } });
+    async function loadTodos() {
+      const items: any = await todosItemsResolver();
 
       dispatch({
         type: 'load',
-        payload: items,
-      } as Action);
+        payload: { todos: items, groupName },
+      });
     }
 
-    loadUserTodos();
-  }, [dispatch]);
+    loadTodos();
+  }, [dispatch, todosItemsResolver, groupName]);
 
-  const { nowShowing, todos } = useSelector(
-    (state: AppState): AppState => state
+  const { nowShowing = ALL_TODOS, todos = [] } = useSelector(
+    (state: AppState): AppState => state[groupName] ?? {}
   );
 
   const activeTodoCount: number = todos.reduce(
@@ -69,29 +67,42 @@ const Main: React.FunctionComponent = () => {
 
     dispatch({
       type: 'toggleAll',
-      payload: { done: checked },
-    } as Action);
+      payload: { done: checked, groupName },
+    });
   };
 
   return (
     <div className="main">
-      <input
-        className="toggle-all"
-        type="checkbox"
-        onChange={onToggleAll}
-        checked={activeTodoCount === 0}
-      />
+      {!readOnly && (
+        <input
+          className="toggle-all"
+          type="checkbox"
+          onChange={onToggleAll}
+          checked={activeTodoCount === 0}
+        />
+      )}
 
       <ul className="todo-list">
         {showTodos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem
+            groupName={groupName}
+            key={todo.id}
+            todo={todo}
+            readOnly={readOnly}
+            itemClassnamesResolver={itemClassnamesResolver}
+          />
         ))}
       </ul>
     </div>
   );
 };
 
-const TodoItem: React.FunctionComponent<{ todo: Todo }> = ({ todo }) => {
+const TodoItem: React.FunctionComponent<{
+  todo: Todo;
+  readOnly: boolean;
+  itemClassnamesResolver: Function;
+  groupName: string;
+}> = ({ todo, readOnly, itemClassnamesResolver = () => ({}), groupName }) => {
   const editingInput = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const [editingText, setEditingText] = useState<string>(todo.title);
@@ -108,7 +119,10 @@ const TodoItem: React.FunctionComponent<{ todo: Todo }> = ({ todo }) => {
       data: { updateTodo: updatedTodo },
     }: any = await updateTodoMutation({ input: { ...todo, done: !todo.done } });
 
-    dispatch({ type: 'toggle', payload: { id: updatedTodo.id } } as Action);
+    dispatch({
+      type: 'toggle',
+      payload: { id: updatedTodo.id, groupName },
+    } as Action);
   };
 
   const onDestroy = async (): Promise<void> => {
@@ -116,7 +130,10 @@ const TodoItem: React.FunctionComponent<{ todo: Todo }> = ({ todo }) => {
       data: { deleteTodo: deletedTodo },
     }: any = await deleteTodoMutation({ input: { id: todo.id } });
 
-    dispatch({ type: 'destroy', payload: { id: deletedTodo.id } } as Action);
+    dispatch({
+      type: 'destroy',
+      payload: { id: deletedTodo.id, groupName },
+    } as Action);
   };
 
   const onEdit = (): void => {
@@ -142,8 +159,9 @@ const TodoItem: React.FunctionComponent<{ todo: Todo }> = ({ todo }) => {
         payload: {
           id: updatedTodo.id,
           title: text,
+          groupName,
         },
-      } as Action);
+      });
       setEditing(false);
     }
   };
@@ -159,6 +177,7 @@ const TodoItem: React.FunctionComponent<{ todo: Todo }> = ({ todo }) => {
       className={classNames({
         done: todo.done,
         editing: editing,
+        ...itemClassnamesResolver(todo),
       })}
     >
       <div className="view">
@@ -166,10 +185,10 @@ const TodoItem: React.FunctionComponent<{ todo: Todo }> = ({ todo }) => {
           className="toggle"
           type="checkbox"
           checked={todo.done}
-          onChange={onToggle}
+          onChange={readOnly ? identity : onToggle}
         />
-        <label onDoubleClick={onEdit}>{todo.title}</label>
-        <button className="destroy" onClick={onDestroy} />
+        <label onDoubleClick={readOnly ? identity : onEdit}>{todo.title}</label>
+        {!readOnly && <button className="destroy" onClick={onDestroy} />}
       </div>
 
       <input

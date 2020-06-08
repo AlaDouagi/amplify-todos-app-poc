@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from '@lokibai/react-store';
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from './constants';
 import { AppState, Action, NowShowing } from '../../store';
 
-const Footer: React.FC = () => {
-  const { nowShowing, todos } = useSelector(
-    (state: AppState): AppState => state
+const Footer: React.FC<any> = ({ groupName }) => {
+  const { nowShowing = ALL_TODOS, todos = [] } = useSelector(
+    (state: AppState): AppState => state[groupName] ?? {}
   );
   const dispatch = useDispatch();
 
@@ -20,12 +20,12 @@ const Footer: React.FC = () => {
   const onToggleShowing = (nowShowing: NowShowing): void => {
     dispatch({
       type: 'toggleShowing',
-      payload: { nowShowing },
-    } as Action);
+      payload: { nowShowing, groupName },
+    });
   };
 
   const onClearCompleted = (): void => {
-    dispatch({ type: 'clearCompleted' } as Action);
+    dispatch({ type: 'clearCompleted', payload: { groupName } });
   };
 
   return todos.length ? (

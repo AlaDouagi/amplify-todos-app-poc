@@ -5,11 +5,22 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 
-const Todos: React.SFC<any> = ({ headerTitle }) => (
+const Todos: React.SFC<any> = ({
+  headerTitle,
+  readOnly = false,
+  todosItemsResolver,
+  itemClassnamesResolver,
+  name,
+}) => (
   <div className="todoapp">
-    <Header title={headerTitle} />
-    <Main />
-    <Footer />
+    <Header groupName={name} title={headerTitle} readOnly={readOnly} />
+    <Main
+      groupName={name}
+      readOnly={readOnly}
+      todosItemsResolver={todosItemsResolver}
+      itemClassnamesResolver={itemClassnamesResolver}
+    />
+    <Footer groupName={name} readOnly={readOnly} />
   </div>
 );
 

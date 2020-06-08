@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const getMatchingTodos = /* GraphQL */ `
-  query GetMatchingTodos($title: String!) {
-    getMatchingTodos(title: $title) {
+  query GetMatchingTodos($owner: String!) {
+    getMatchingTodos(owner: $owner) {
       id
       title
       description
