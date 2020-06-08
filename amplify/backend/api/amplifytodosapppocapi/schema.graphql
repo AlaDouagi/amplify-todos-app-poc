@@ -24,7 +24,7 @@ type Todo
 }
 
 type Query {
-  getMatchingTodos(title: String!): [Todo] @function(name: "matchtodos-${env}")
+  getMatchingTodos(owner: String!): [Todo] @function(name: "matchtodos-${env}")
 }
 
 type Mutation {

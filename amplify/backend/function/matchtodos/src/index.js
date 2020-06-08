@@ -28,19 +28,43 @@ if (isFake) {
 const docClient = new AWS.DynamoDB.DocumentClient(awsConfig);
 
 exports.handler = function (event, context, callback) {
-  const params = {
+  const ownerTodosparams = {
     TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
-    FilterExpression: 'title = :title',
+    FilterExpression: '#owner_id = :owner',
     ExpressionAttributeValues: {
-      ':title': event.arguments.title,
+      ':owner': event.arguments.owner,
     },
+    ExpressionAttributeNames: {
+      "#owner_id": "owner"
+    }
   };
 
-  docClient.scan(params, function (err, data) {
+  docClient.scan(ownerTodosparams, function (err, data) {
     if (err) {
       callback(err);
     } else {
-      callback(null, data.Items);
+      const titleValues = data.Items.map(({ title }) => title);
+      const titleObject = {};
+
+      titleValues.forEach(function (value, index) {
+        const titleKey = ':titlevalue' + index;
+        titleObject[titleKey.toString()] = value;
+      });
+
+      const matchedTodosParams = {
+        TableName: process.env.API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME,
+        FilterExpression:
+          'title IN (' + Object.keys(titleObject).toString() + ')',
+        ExpressionAttributeValues: titleObject,
+      };
+
+      docClient.scan(matchedTodosParams, function (err, data) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, data.Items);
+        }
+      });
     }
   });
 };
