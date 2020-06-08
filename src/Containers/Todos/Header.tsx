@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from '@lokibai/react-store';
+import { API, graphqlOperation } from 'aws-amplify';
+
 import { ENTER_KEY } from './constants';
 import { Action } from '../../store';
+import { createTodo } from '../../graphql/mutations';
+
+const createTodoMutation = (todoDetails: any) =>
+  API.graphql(graphqlOperation(createTodo, todoDetails));
 
 const Header: React.SFC<any> = ({ title = 'todos' }) => {
   const input = useRef<HTMLInputElement>(null);
@@ -20,17 +26,21 @@ const Header: React.SFC<any> = ({ title = 'todos' }) => {
     setText(e.target.value);
   };
 
-  const onKeyDown = (e: { keyCode: number }) => {
+  const onKeyDown = async (e: { keyCode: number }) => {
     if (e.keyCode !== ENTER_KEY) return;
 
     const value = text.trim();
 
     if (value) {
-      const todo = {
-        id: Date.now(),
-        text: value,
-        completed: false,
-      };
+      const {
+        data: { createTodo: todo },
+      }: any = await createTodoMutation({
+        input: {
+          title: value,
+          description: '',
+          done: false,
+        },
+      });
 
       dispatch({ type: 'create', payload: todo } as Action);
 

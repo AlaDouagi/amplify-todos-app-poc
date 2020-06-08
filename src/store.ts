@@ -4,9 +4,12 @@ import { ALL_TODOS } from './Containers/Todos/constants';
 export type NowShowing = string;
 export type Todo = {
   id: number;
-  text: string;
-  completed?: boolean;
-  name?: string;
+  title: string;
+  done?: boolean;
+  description?: string;
+  owner?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 export type AppState = {
   nowShowing: NowShowing;
@@ -14,10 +17,11 @@ export type AppState = {
 };
 
 export type Action =
+  | { type: 'load'; payload: [Todo] }
   | { type: 'create'; payload: Todo }
   | { type: 'update'; payload: any } // why error
   | { type: 'toggle'; payload: { id: Todo['id'] } }
-  | { type: 'toggleAll'; payload: { completed: Todo['completed'] } }
+  | { type: 'toggleAll'; payload: { done: Todo['done'] } }
   | { type: 'destroy'; payload: { id: Todo['id'] } }
   | { type: 'clearCompleted'; payload: null }
   | {
@@ -32,40 +36,39 @@ export const initialState: AppState = {
 
 export const reducer = produce(
   (state: AppState, action: Action): AppState => {
-    const { type, payload } = action;
-
-    console.log(type, payload);
+    const { payload } = action;
 
     switch (action.type) {
+      case 'load':
+        state.todos = payload;
+        return state;
       case 'create':
         state.todos.push(payload);
         return state;
       case 'update':
         state.todos.forEach((todo) => {
           if (todo.id === payload.id) {
-            todo.text = payload.text;
+            todo.title = payload.title;
           }
         });
         return state;
       case 'toggle':
         state.todos.forEach((todo) => {
           if (todo.id === payload.id) {
-            todo.completed = !todo.completed;
+            todo.done = !todo.done;
           }
         });
         return state;
       case 'toggleAll':
         state.todos.forEach((todo) => {
-          todo.completed = payload.completed;
+          todo.done = payload.done;
         });
         return state;
       case 'destroy':
-        state.todos.splice(
-          state.todos.findIndex((todo) => todo.id === payload.id)
-        );
+        state.todos = state.todos.filter((todo) => todo.id !== payload.id);
         return state;
       case 'clearCompleted':
-        state.todos = state.todos.filter((todo) => !todo.completed);
+        state.todos = state.todos.filter((todo) => !todo.done);
         return state;
       case 'toggleShowing':
         state.nowShowing = payload.nowShowing;

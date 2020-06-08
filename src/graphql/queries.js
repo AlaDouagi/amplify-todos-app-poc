@@ -47,3 +47,33 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
+export const todosByOwner = /* GraphQL */ `
+  query TodosByOwner(
+    $owner: String
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTodoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    todosByOwner(
+      owner: $owner
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        description
+        done
+        owner
+        updatedAt
+        createdAt
+      }
+      nextToken
+    }
+  }
+`;

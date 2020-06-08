@@ -1,6 +1,19 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const deleteAllTodos = /* GraphQL */ `
+  mutation DeleteAllTodos {
+    deleteAllTodos {
+      id
+      title
+      description
+      done
+      owner
+      updatedAt
+      createdAt
+    }
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!
