@@ -1,0 +1,32 @@
+type Todo
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "owner"
+        operations: [create, delete, update]
+      }
+    ]
+  )
+  @key(
+    name: "ByOwner"
+    fields: ["owner", "createdAt"]
+    queryField: "todosByOwner"
+  ) {
+  id: ID!
+  title: String!
+  description: String!
+  done: Boolean!
+  owner: String
+  updatedAt: String!
+  createdAt: String!
+}
+
+type Query {
+  getMatchingTodos(owner: String!): [Todo] @function(name: "matchtodos-${env}")
+}
+
+type Mutation {
+  deleteAllTodos: [Todo] @function(name: "deletealltodos-${env}")
+}
