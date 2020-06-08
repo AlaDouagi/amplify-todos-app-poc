@@ -1,57 +1,57 @@
 {
-    "function": {
-        "matchtodos": {
-            "build": true,
-            "providerPlugin": "awscloudformation",
-            "service": "Lambda",
-            "dependsOn": [
-                {
-                    "category": "api",
-                    "resourceName": "amplifytodosapppocapi",
-                    "attributes": [
-                        "GraphQLAPIIdOutput"
-                    ]
-                }
-            ]
-        },
-        "deletealltodos": {
-            "build": true,
-            "providerPlugin": "awscloudformation",
-            "service": "Lambda",
-            "dependsOn": [
-                {
-                    "category": "api",
-                    "resourceName": "amplifytodosapppocapi",
-                    "attributes": [
-                        "GraphQLAPIIdOutput"
-                    ]
-                }
-            ]
-        }
-    },
-    "api": {
-        "amplifytodosapppocapi": {
-            "service": "AppSync",
-            "providerPlugin": "awscloudformation",
-            "output": {
-                "authConfig": {
-                    "additionalAuthenticationProviders": [],
-                    "defaultAuthentication": {
-                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-                        "userPoolConfig": {
-                            "userPoolId": "authamplifytodosapppoccognito"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "storage": {},
-    "auth": {
-        "amplifytodosapppoccognito": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": []
-        }
-    }
+	"function": {
+		"matchtodos": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "amplifytodosapppocapi",
+					"attributes": [
+						"GraphQLAPIIdOutput"
+					]
+				}
+			]
+		},
+		"deletealltodos": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "amplifytodosapppocapi",
+					"attributes": [
+						"GraphQLAPIIdOutput"
+					]
+				}
+			]
+		}
+	},
+	"api": {
+		"amplifytodosapppocapi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "authamplifytodosapppoccognito"
+						}
+					}
+				}
+			}
+		}
+	},
+	"storage": {},
+	"auth": {
+		"amplifytodosapppoccognito": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
 }

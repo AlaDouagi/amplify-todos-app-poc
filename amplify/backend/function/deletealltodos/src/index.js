@@ -3,8 +3,8 @@
 	API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_ARN
 	API_AMPLIFYTODOSAPPPOCAPI_TODOTABLE_NAME
 	ENV
-  REGION
-*/
+	REGION
+Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk');
 const dotenv = require('dotenv');
