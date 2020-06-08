@@ -1,6 +1,6 @@
 {
     "function": {
-        "matchtodos": {
+        "deletealltodos": {
             "build": true,
             "providerPlugin": "awscloudformation",
             "service": "Lambda",
@@ -14,7 +14,7 @@
                 }
             ]
         },
-        "deletealltodos": {
+        "matchtodos": {
             "build": true,
             "providerPlugin": "awscloudformation",
             "service": "Lambda",
