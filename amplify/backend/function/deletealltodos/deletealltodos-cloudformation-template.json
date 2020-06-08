@@ -13,10 +13,6 @@
 		"apiamplifytodosapppocapiGraphQLAPIIdOutput": {
 			"Type": "String",
 			"Default": "apiamplifytodosapppocapiGraphQLAPIIdOutput"
-		},
-		"apiamplifytodosapppocapiGraphQLAPIEndpointOutput": {
-			"Type": "String",
-			"Default": "apiamplifytodosapppocapiGraphQLAPIEndpointOutput"
 		}
 	},
 	"Conditions": {
@@ -105,7 +101,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-amplifytodosapppoc-dev-164259-deployment",
-					"S3Key": "amplify-builds/deletealltodos-6e4d4a6d5a595a4c3831-build.zip"
+					"S3Key": "amplify-builds/deletealltodos-325152555878656e5751-build.zip"
 				}
 			}
 		},
@@ -115,12 +111,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"amplifytodosapppocLambdaRole1a0ab907",
+						"amplifytodosapppocLambdaRole75793216",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"amplifytodosapppocLambdaRole1a0ab907",
+									"amplifytodosapppocLambdaRole75793216",
 									"-",
 									{
 										"Ref": "env"
@@ -189,62 +185,6 @@
 						}
 					]
 				}
-			}
-		},
-		"LambdaTriggerPolicyTodo": {
-			"DependsOn": [
-				"LambdaExecutionRole"
-			],
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "amplify-lambda-execution-policy-Todo",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:DescribeStream",
-								"dynamodb:GetRecords",
-								"dynamodb:GetShardIterator",
-								"dynamodb:ListStreams"
-							],
-							"Resource": {
-								"Fn::ImportValue": {
-									"Fn::Sub": "${apiamplifytodosapppocapiGraphQLAPIIdOutput}:GetAtt:TodoTable:StreamArn"
-								}
-							}
-						}
-					]
-				}
-			}
-		},
-		"LambdaEventSourceMappingTodo": {
-			"Type": "AWS::Lambda::EventSourceMapping",
-			"DependsOn": [
-				"LambdaTriggerPolicyTodo",
-				"LambdaExecutionRole"
-			],
-			"Properties": {
-				"BatchSize": 100,
-				"Enabled": true,
-				"EventSourceArn": {
-					"Fn::ImportValue": {
-						"Fn::Sub": "${apiamplifytodosapppocapiGraphQLAPIIdOutput}:GetAtt:TodoTable:StreamArn"
-					}
-				},
-				"FunctionName": {
-					"Fn::GetAtt": [
-						"LambdaFunction",
-						"Arn"
-					]
-				},
-				"StartingPosition": "LATEST"
 			}
 		},
 		"AmplifyResourcesPolicy": {
