@@ -21,7 +21,7 @@
     "antd": "^4.3.2",
     "aws-amplify": "^3.0.16",
     "classnames": "^2.2.6",
-    "immer": "^8.0.1",
+    "immer": "^9.0.6",
     "jwt-decode": "^2.2.0",
     "password-validator": "^5.0.3",
     "react": "^16.13.1",
